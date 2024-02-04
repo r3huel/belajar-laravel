@@ -12,11 +12,19 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = Book::orderBy('created_at', 'DESC')->get();
+        $query = $request->input('query');
+        // kalau dikasi query, filter berdasarkan nama, penulis, atau tahun terbit
+        $books = $query
+            ? Book::where('name', 'like', '%' . $query . '%')
+                ->orWhere('author', 'like', '%' . $query . '%')
+                ->orWhere('year', 'like', '%' . $query . '%')
+                ->orderBy('created_at', 'DESC')
+                ->get()
+            : Book::orderBy('created_at', 'DESC')->get();
 
-        return view('pages.book.index', compact('books'));
+        return view('pages.book.index', compact('books', 'query'));
     }
 
     /**

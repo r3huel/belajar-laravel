@@ -5,7 +5,14 @@
         <h1 class="mb-0">List Book</h1>
         <a href="{{ route('book.create') }}" class="btn btn-primary">Add Book</a>
     </div>
-    <hr />
+    <form action="{{ route('book.index') }}" method="GET" class="my-3">
+        <div class="input-group">
+            <input type="text" name="query" class="form-control" placeholder="Search by name or author..." value="{{ $query }}">
+            <div class="input-group-append">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </div>
+        </div>
+    </form>    
     @if(Session::has('success'))
         <div class="alert alert-success" role="alert">
             {{ Session::get('success') }}
